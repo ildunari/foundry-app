@@ -1,9 +1,13 @@
+import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { Sparkles } from "lucide-react";
 import Sidebar from "@/components/layout/Sidebar";
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
+import AIPanel from "@/components/ai-panel/AIPanel";
 
 export default function AppShell() {
+  const [isAIPanelOpen, setIsAIPanelOpen] = useState(false);
+
   return (
     <div className="h-screen w-screen flex bg-shell-bg text-shell-text-primary">
       <Sidebar />
@@ -19,6 +23,7 @@ export default function AppShell() {
           </div>
           <button
             type="button"
+            onClick={() => setIsAIPanelOpen((prev) => !prev)}
             className="p-1.5 rounded text-shell-text-tertiary hover:text-shell-text-secondary transition-colors"
             aria-label="Toggle AI panel"
           >
@@ -32,8 +37,10 @@ export default function AppShell() {
             <Outlet />
           </div>
 
-          {/* AI panel slot - another agent will populate this */}
-          <div id="ai-panel-slot" className="hidden" />
+          <AIPanel
+            isOpen={isAIPanelOpen}
+            onClose={() => setIsAIPanelOpen(false)}
+          />
         </div>
       </div>
     </div>
