@@ -32,6 +32,19 @@ pub async fn get_asset_path(path: String, state: State<'_, AppState>) -> Result<
 }
 
 #[tauri::command]
+pub async fn write_file(path: String, content: String, state: State<'_, AppState>) -> Result<(), String> {
+    let full_path = std::path::Path::new(&state.library_path).join(&path);
+    if let Some(parent) = full_path.parent() {
+        tokio::fs::create_dir_all(parent)
+            .await
+            .map_err(|e| format!("Failed to create directory: {e}"))?;
+    }
+    tokio::fs::write(&full_path, content)
+        .await
+        .map_err(|e| format!("Failed to write {}: {e}", path))
+}
+
+#[tauri::command]
 pub async fn list_files(dir: String, state: State<'_, AppState>) -> Result<Vec<String>, String> {
     let full_path = std::path::Path::new(&state.library_path).join(&dir);
     let mut entries = Vec::new();

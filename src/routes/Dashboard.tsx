@@ -45,32 +45,15 @@ export default function Dashboard() {
   const systemsCategory = index.categories.find((c) => c.kind === "systems");
   const otherCategories = index.categories.filter((c) => c.kind !== "systems");
 
-  // 1. Feature cards for "complete" systems, sorted by lastModified desc
-  const completeSystems = (systemsCategory?.items ?? [])
-    .filter((item) => item.status === "complete")
-    .sort(
-      (a, b) =>
-        new Date(b.lastModified).getTime() -
-        new Date(a.lastModified).getTime(),
-    );
-
-  for (const item of completeSystems) {
-    cards.push(<SystemFeatureCard key={`system-${item.slug}`} item={item} />);
-  }
-
-  // 2. Standard cards for "spec-only" systems
-  const specOnlySystems = (systemsCategory?.items ?? []).filter(
-    (item) => item.status === "spec-only",
+  // 1. Feature cards for all systems, sorted by lastModified desc
+  const allSystems = (systemsCategory?.items ?? []).sort(
+    (a, b) =>
+      new Date(b.lastModified).getTime() -
+      new Date(a.lastModified).getTime(),
   );
 
-  for (const item of specOnlySystems) {
-    cards.push(
-      <ItemCard
-        key={`system-spec-${item.slug}`}
-        item={item}
-        categoryLabel="Systems"
-      />,
-    );
+  for (const item of allSystems) {
+    cards.push(<SystemFeatureCard key={`system-${item.slug}`} item={item} />);
   }
 
   // 3. Item cards for non-empty non-system categories

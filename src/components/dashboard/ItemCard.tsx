@@ -49,9 +49,6 @@ export function ItemCard({ item, categoryLabel }: ItemCardProps) {
               <FileText className="w-3 h-3" />
               {item.fileCount}
             </span>
-            {item.status === "spec-only" && (
-              <span className="text-xs text-amber-500">Spec only</span>
-            )}
           </div>
         </motion.div>
       </Link>

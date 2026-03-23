@@ -20,6 +20,7 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             commands::scan_library,
             commands::read_file,
+            commands::write_file,
             commands::get_asset_path,
             commands::list_files,
             terminal::spawn_terminal,

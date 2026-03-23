@@ -108,11 +108,6 @@ export default function CategoryPage({ kind }: { kind: CategoryKind }) {
                   </p>
                 )}
                 <div className="flex items-center gap-2">
-                  {item.status === "spec-only" && (
-                    <span className="text-xs bg-amber-900/30 text-amber-400 border border-amber-800/30 rounded px-1.5 py-0.5">
-                      Spec only
-                    </span>
-                  )}
                   <span className="text-xs text-shell-text-tertiary">
                     {item.fileCount} files
                   </span>

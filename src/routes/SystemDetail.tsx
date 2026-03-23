@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
-import { motion } from "motion/react";
+import { ArrowLeft, Maximize2, Minimize2 } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
 import { useLibrary } from "@/context/LibraryContext";
 import type { LibraryItem } from "@/lib/types";
 
@@ -15,8 +15,8 @@ import ComponentTab from "@/components/viewers/systems/ComponentTab";
 interface TabDef {
   id: string;
   label: string;
-  kind: "overview" | "colors" | "typography" | "spacing" | "preview" | "component";
-  cssPath?: string; // for component tabs
+  kind: "overview" | "colors" | "typography" | "spacing" | "component";
+  cssPath?: string;
 }
 
 function buildTabs(item: LibraryItem): TabDef[] {
@@ -27,12 +27,6 @@ function buildTabs(item: LibraryItem): TabDef[] {
     { id: "spacing", label: "Spacing", kind: "spacing" },
   ];
 
-  // Preview tab (if available)
-  if (item.hasPreview || item.manifest?.structure?.preview) {
-    tabs.push({ id: "preview", label: "Preview", kind: "preview" });
-  }
-
-  // Dynamic component tabs from manifest
   const components = item.manifest?.structure?.components ?? [];
   for (const cssPath of components) {
     const filename = cssPath.split("/").pop() ?? cssPath;
@@ -54,8 +48,8 @@ export default function SystemDetail() {
   const navigate = useNavigate();
   const { index, isLoading } = useLibrary();
   const [activeTab, setActiveTab] = useState("overview");
+  const [previewExpanded, setPreviewExpanded] = useState(false);
 
-  // Find the system item
   const item = useMemo<LibraryItem | undefined>(() => {
     if (!index) return undefined;
     for (const cat of index.categories) {
@@ -69,9 +63,12 @@ export default function SystemDetail() {
   const manifest = item?.manifest;
   const accentColor = manifest?.palette?.accent ?? "#D15010";
 
-  // Token path for color/spacing/typography tabs
   const tokenJsonPath = manifest?.structure?.tokens?.json
     ? `systems/${slug}/${manifest.structure.tokens.json}`
+    : null;
+
+  const previewPath = manifest?.structure?.preview
+    ? `systems/${slug}/${manifest.structure.preview}`
     : null;
 
   if (isLoading) {
@@ -107,6 +104,36 @@ export default function SystemDetail() {
         <ArrowLeft size={14} />
         Back
       </button>
+
+      {/* Preview Hero (always on top when available) */}
+      {previewPath && (
+        <div className="mb-6">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xs uppercase tracking-wider text-shell-text-tertiary">
+              Preview
+            </span>
+            <button
+              type="button"
+              onClick={() => setPreviewExpanded((p) => !p)}
+              className="p-1 rounded text-shell-text-tertiary hover:text-shell-text-primary transition-colors"
+              aria-label={previewExpanded ? "Collapse preview" : "Expand preview"}
+            >
+              {previewExpanded ? <Minimize2 size={14} /> : <Maximize2 size={14} />}
+            </button>
+          </div>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={previewExpanded ? "expanded" : "collapsed"}
+              initial={{ height: previewExpanded ? 300 : 500 }}
+              animate={{ height: previewExpanded ? 500 : 300 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="rounded-lg overflow-hidden border border-shell-border"
+            >
+              <PreviewTab previewPath={previewPath} />
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      )}
 
       {/* Tab Bar */}
       <div className="flex items-center gap-1 border-b border-shell-border mb-6 overflow-x-auto">
@@ -154,10 +181,6 @@ export default function SystemDetail() {
 
         {currentTab.kind === "spacing" && tokenJsonPath && (
           <SpacingTab tokenPath={tokenJsonPath} />
-        )}
-
-        {currentTab.kind === "preview" && manifest?.structure?.preview && (
-          <PreviewTab previewPath={`systems/${slug}/${manifest.structure.preview}`} />
         )}
 
         {currentTab.kind === "component" && currentTab.cssPath && (
