@@ -9,6 +9,15 @@ export interface CategoryDef {
   path: string;
 }
 
+export const CATEGORY_ICONS: Record<CategoryKind, LucideIcon> = {
+  systems: Building2,
+  typography: Type,
+  iconography: Shapes,
+  motion: Zap,
+  palettes: Palette,
+  patterns: Grid3x3,
+};
+
 export const CATEGORIES: CategoryDef[] = [
   { kind: "systems", label: "Systems", icon: Building2, path: "/systems" },
   { kind: "typography", label: "Typography", icon: Type, path: "/typography" },

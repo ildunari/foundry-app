@@ -1,6 +1,5 @@
 import { motion } from "motion/react";
 import type { LucideIcon } from "lucide-react";
-import type { CategoryKind } from "@/lib/types";
 
 const cardVariant = {
   hidden: { opacity: 0, y: 8 },
@@ -12,7 +11,6 @@ const cardVariant = {
 };
 
 interface EmptyCategoryCardProps {
-  kind: CategoryKind;
   label: string;
   icon: LucideIcon;
 }

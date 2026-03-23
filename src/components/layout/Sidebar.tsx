@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Settings } from "lucide-react";
 import * as Separator from "@radix-ui/react-separator";
 import { CATEGORIES } from "@/lib/constants";
@@ -6,11 +7,11 @@ import SidebarItem from "@/components/layout/SidebarItem";
 export default function Sidebar() {
   return (
     <aside className="w-[220px] flex-shrink-0 border-r border-shell-border flex flex-col pt-[70px]">
-      <div className="px-5 pb-4">
+      <Link to="/" className="block px-5 pb-4 hover:opacity-80 transition-opacity">
         <span className="text-xs uppercase tracking-[0.2em] text-shell-text-tertiary">
           Foundry
         </span>
-      </div>
+      </Link>
 
       <nav className="flex-1 flex flex-col gap-0.5">
         {CATEGORIES.map((cat) => (

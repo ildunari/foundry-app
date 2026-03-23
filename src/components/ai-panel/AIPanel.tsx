@@ -11,7 +11,7 @@ interface AIPanelProps {
 }
 
 export default function AIPanel({ isOpen, onClose }: AIPanelProps) {
-  const { sessionId, isActive, spawn, close } = useTerminalSession();
+  const { sessionId, isActive, error, spawn, close } = useTerminalSession();
 
   const handleClose = useCallback(async () => {
     await close();
@@ -49,6 +49,11 @@ export default function AIPanel({ isOpen, onClose }: AIPanelProps) {
                 <p className="text-sm text-shell-text-secondary text-center mb-4">
                   Start an AI session to create new design assets
                 </p>
+                {error && (
+                  <p className="text-xs text-red-400 mb-3 text-center">
+                    {error}
+                  </p>
+                )}
                 <button
                   type="button"
                   onClick={spawn}

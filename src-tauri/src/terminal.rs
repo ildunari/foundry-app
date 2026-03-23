@@ -169,5 +169,8 @@ pub async fn close_terminal(
         .kill()
         .map_err(|e| format!("Failed to kill child process: {e}"))?;
 
+    // Reap the process to prevent zombies
+    let _ = session.child.wait();
+
     Ok(())
 }

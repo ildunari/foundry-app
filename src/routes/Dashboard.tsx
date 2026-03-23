@@ -3,19 +3,8 @@ import { BentoGrid } from "@/components/dashboard/BentoGrid";
 import { SystemFeatureCard } from "@/components/dashboard/SystemFeatureCard";
 import { ItemCard } from "@/components/dashboard/ItemCard";
 import { EmptyCategoryCard } from "@/components/dashboard/EmptyCategoryCard";
-import { Building2, Type, Shapes, Zap, Palette, Grid3x3 } from "lucide-react";
-import type { CategoryKind } from "@/lib/types";
-import type { LucideIcon } from "lucide-react";
+import { CATEGORY_ICONS } from "@/lib/constants";
 import type { ReactNode } from "react";
-
-const categoryIcons: Record<CategoryKind, LucideIcon> = {
-  systems: Building2,
-  typography: Type,
-  iconography: Shapes,
-  motion: Zap,
-  palettes: Palette,
-  patterns: Grid3x3,
-};
 
 export default function Dashboard() {
   const { index, isLoading, error } = useLibrary();
@@ -93,9 +82,8 @@ export default function Dashboard() {
     cards.push(
       <EmptyCategoryCard
         key={`empty-${cat.kind}`}
-        kind={cat.kind}
         label={cat.label}
-        icon={categoryIcons[cat.kind]}
+        icon={CATEGORY_ICONS[cat.kind]}
       />,
     );
   }

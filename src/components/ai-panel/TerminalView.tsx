@@ -54,19 +54,23 @@ export default function TerminalView({ sessionId, onData }: TerminalViewProps) {
     const term = termRef.current;
     if (!term) return;
 
+    let cancelled = false;
     let unlisten: (() => void) | null = null;
 
-    const setup = async () => {
-      unlisten = await onTerminalOutput((payload) => {
-        if (payload.sessionId === sessionId) {
-          term.write(payload.data);
-        }
-      });
-    };
-
-    setup();
+    onTerminalOutput((payload) => {
+      if (payload.sessionId === sessionId) {
+        term.write(payload.data);
+      }
+    }).then((fn) => {
+      if (cancelled) {
+        fn(); // Already unmounted — immediately unsubscribe
+      } else {
+        unlisten = fn;
+      }
+    });
 
     return () => {
+      cancelled = true;
       unlisten?.();
     };
   }, [sessionId]);

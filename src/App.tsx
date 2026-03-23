@@ -1,14 +1,9 @@
 import { RouterProvider, createHashRouter } from "react-router-dom";
 import { LibraryProvider } from "@/context/LibraryContext";
 import AppShell from "@/components/layout/AppShell";
-import SystemsPage from "@/routes/SystemsPage";
-import TypographyPage from "@/routes/TypographyPage";
-import IconographyPage from "@/routes/IconographyPage";
-import MotionPage from "@/routes/MotionPage";
-import PalettesPage from "@/routes/PalettesPage";
-import PatternsPage from "@/routes/PatternsPage";
 import PlaceholderDetail from "@/routes/PlaceholderDetail";
 import Dashboard from "@/routes/Dashboard";
+import CategoryPage from "@/routes/CategoryPage";
 
 function SettingsPlaceholder() {
   return <div className="text-shell-text-secondary">Settings coming soon.</div>;
@@ -24,17 +19,17 @@ const router = createHashRouter([
     ),
     children: [
       { index: true, element: <Dashboard /> },
-      { path: "systems", element: <SystemsPage /> },
+      { path: "systems", element: <CategoryPage kind="systems" /> },
       { path: "systems/:slug", element: <PlaceholderDetail /> },
-      { path: "typography", element: <TypographyPage /> },
+      { path: "typography", element: <CategoryPage kind="typography" /> },
       { path: "typography/:slug", element: <PlaceholderDetail /> },
-      { path: "iconography", element: <IconographyPage /> },
+      { path: "iconography", element: <CategoryPage kind="iconography" /> },
       { path: "iconography/:slug", element: <PlaceholderDetail /> },
-      { path: "motion", element: <MotionPage /> },
+      { path: "motion", element: <CategoryPage kind="motion" /> },
       { path: "motion/:slug", element: <PlaceholderDetail /> },
-      { path: "palettes", element: <PalettesPage /> },
+      { path: "palettes", element: <CategoryPage kind="palettes" /> },
       { path: "palettes/:slug", element: <PlaceholderDetail /> },
-      { path: "patterns", element: <PatternsPage /> },
+      { path: "patterns", element: <CategoryPage kind="patterns" /> },
       { path: "patterns/:slug", element: <PlaceholderDetail /> },
       { path: "settings", element: <SettingsPlaceholder /> },
     ],
