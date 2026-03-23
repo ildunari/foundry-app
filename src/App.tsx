@@ -4,6 +4,7 @@ import AppShell from "@/components/layout/AppShell";
 import PlaceholderDetail from "@/routes/PlaceholderDetail";
 import Dashboard from "@/routes/Dashboard";
 import CategoryPage from "@/routes/CategoryPage";
+import SystemDetail from "@/routes/SystemDetail";
 
 function SettingsPlaceholder() {
   return <div className="text-shell-text-secondary">Settings coming soon.</div>;
@@ -20,7 +21,7 @@ const router = createHashRouter([
     children: [
       { index: true, element: <Dashboard /> },
       { path: "systems", element: <CategoryPage kind="systems" /> },
-      { path: "systems/:slug", element: <PlaceholderDetail /> },
+      { path: "systems/:slug", element: <SystemDetail /> },
       { path: "typography", element: <CategoryPage kind="typography" /> },
       { path: "typography/:slug", element: <PlaceholderDetail /> },
       { path: "iconography", element: <CategoryPage kind="iconography" /> },

@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { listen } from "@tauri-apps/api/event";
 import type { LibraryIndex } from "@/lib/types";
 import { scanLibrary } from "@/lib/scanner";
 
@@ -30,6 +31,24 @@ export function useLibraryIndex(): UseLibraryIndexResult {
 
   useEffect(() => {
     scan();
+  }, [scan]);
+
+  // Auto-rescan when file watcher detects changes
+  useEffect(() => {
+    let cancelled = false;
+    let unlisten: (() => void) | null = null;
+
+    listen("library-changed", () => {
+      if (!cancelled) scan();
+    }).then((fn) => {
+      if (cancelled) fn();
+      else unlisten = fn;
+    });
+
+    return () => {
+      cancelled = true;
+      unlisten?.();
+    };
   }, [scan]);
 
   return { index, isLoading, error, rescan: scan };
