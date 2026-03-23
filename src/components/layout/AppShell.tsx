@@ -1,14 +1,27 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { Sparkles } from "lucide-react";
 import Sidebar from "@/components/layout/Sidebar";
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import AIPanel from "@/components/ai-panel/AIPanel";
+import CommandPalette from "@/components/search/CommandPalette";
 
 export default function AppShell() {
   const [isAIPanelOpen, setIsAIPanelOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const location = useLocation();
+
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "k" && e.metaKey) {
+        e.preventDefault();
+        setIsSearchOpen((prev) => !prev);
+      }
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   return (
     <div className="h-screen w-screen flex bg-shell-bg text-shell-text-primary">
@@ -55,6 +68,11 @@ export default function AppShell() {
           />
         </div>
       </div>
+
+      <CommandPalette
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
+      />
     </div>
   );
 }

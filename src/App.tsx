@@ -5,10 +5,11 @@ import PlaceholderDetail from "@/routes/PlaceholderDetail";
 import Dashboard from "@/routes/Dashboard";
 import CategoryPage from "@/routes/CategoryPage";
 import SystemDetail from "@/routes/SystemDetail";
-
-function SettingsPlaceholder() {
-  return <div className="text-shell-text-secondary">Settings coming soon.</div>;
-}
+import IconographyDetail from "@/routes/IconographyDetail";
+import MotionDetail from "@/routes/MotionDetail";
+import PalettesDetail from "@/routes/PalettesDetail";
+import PatternsDetail from "@/routes/PatternsDetail";
+import SettingsPage from "@/routes/SettingsPage";
 
 const router = createHashRouter([
   {
@@ -25,14 +26,14 @@ const router = createHashRouter([
       { path: "typography", element: <CategoryPage kind="typography" /> },
       { path: "typography/:slug", element: <PlaceholderDetail /> },
       { path: "iconography", element: <CategoryPage kind="iconography" /> },
-      { path: "iconography/:slug", element: <PlaceholderDetail /> },
+      { path: "iconography/:slug", element: <IconographyDetail /> },
       { path: "motion", element: <CategoryPage kind="motion" /> },
-      { path: "motion/:slug", element: <PlaceholderDetail /> },
+      { path: "motion/:slug", element: <MotionDetail /> },
       { path: "palettes", element: <CategoryPage kind="palettes" /> },
-      { path: "palettes/:slug", element: <PlaceholderDetail /> },
+      { path: "palettes/:slug", element: <PalettesDetail /> },
       { path: "patterns", element: <CategoryPage kind="patterns" /> },
-      { path: "patterns/:slug", element: <PlaceholderDetail /> },
-      { path: "settings", element: <SettingsPlaceholder /> },
+      { path: "patterns/:slug", element: <PatternsDetail /> },
+      { path: "settings", element: <SettingsPage /> },
     ],
   },
 ]);
