@@ -19,3 +19,4 @@ tokio = { version = "1", features = ["fs", "process", "io-util"] }
 walkdir = "2"
 dirs = "6"
 portable-pty = "0.8"
+notify = "7"
