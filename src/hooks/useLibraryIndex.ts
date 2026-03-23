@@ -19,7 +19,10 @@ export function useLibraryIndex(): UseLibraryIndexResult {
     setIsLoading(true);
     setError(null);
     try {
-      const result = await scanLibrary();
+      const timeout = new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error("Library scan timed out")), 15000),
+      );
+      const result = await Promise.race([scanLibrary(), timeout]);
       setIndex(result);
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);

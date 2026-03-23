@@ -39,7 +39,11 @@ export default function AppShell() {
           <button
             type="button"
             onClick={() => setIsAIPanelOpen((prev) => !prev)}
-            className="p-1.5 rounded text-shell-text-tertiary hover:text-shell-text-secondary transition-colors"
+            className={`p-1.5 rounded-md transition-all duration-200 ${
+              isAIPanelOpen
+                ? "text-[#D15010] bg-[#D15010]/10"
+                : "text-shell-text-tertiary hover:text-[#D15010] hover:bg-[#D15010]/5"
+            }`}
             aria-label="Toggle AI panel"
           >
             <Sparkles size={16} />

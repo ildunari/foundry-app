@@ -4,10 +4,12 @@
   --color-shell-bg: #0C0C0C;
   --color-shell-raised: #141414;
   --color-shell-popover: #1A1A1A;
-  --color-shell-border: #1A1A1A;
+  --color-shell-border: #1E1E1E;
   --color-shell-text-primary: #E0E0E0;
   --color-shell-text-secondary: #999999;
   --color-shell-text-tertiary: #666666;
+  --color-shell-accent: #D15010;
+  --color-shell-accent-subtle: #D15010/12;
 }
 
 body {
@@ -17,4 +19,54 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   overflow: hidden;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #2A2A2A;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3A3A3A;
+}
+
+/* Selection accent */
+::selection {
+  background: rgba(209, 80, 16, 0.3);
+  color: #fff;
+}
+
+/* Focus ring */
+:focus-visible {
+  outline: 2px solid rgba(209, 80, 16, 0.5);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Skeleton shimmer animation */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(90deg, #141414 25%, #1E1E1E 50%, #141414 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* Subtle glow on hover for interactive cards */
+.card-glow {
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.card-glow:hover {
+  box-shadow: 0 0 20px rgba(209, 80, 16, 0.06), 0 8px 24px rgba(0, 0, 0, 0.3);
+  border-color: #2A2A2A;
 }

@@ -24,7 +24,7 @@ export function ItemCard({ item, categoryLabel }: ItemCardProps) {
         <motion.div
           whileHover={{ y: -2, borderColor: "#2A2A2A" }}
           transition={{ duration: 0.15, ease: "easeOut" }}
-          className="bg-shell-raised border border-shell-border rounded-lg p-4 h-full"
+          className="bg-shell-raised border border-shell-border rounded-lg p-4 h-full card-glow"
         >
           {/* Category badge */}
           <span className="text-xs uppercase tracking-wide text-shell-text-tertiary">

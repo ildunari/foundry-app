@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
-import { readFile, getAssetPath } from "@/lib/files";
+import { readFile, getAssetPath, listFiles } from "@/lib/files";
 import IconDetail from "./IconDetail";
 
 interface IconGridProps {
@@ -66,13 +66,11 @@ export default function IconGrid({ slug, searchQuery, iconSize, bgColor }: IconG
         // Fallback: try to list and load any .tsx file
         getAssetPath(`iconography/${slug}`)
           .then((dir) =>
-            import("@/lib/files").then((mod) =>
-              mod.listFiles(dir).then((files) => {
-                const tsx = files.find((f) => f.endsWith(".tsx"));
-                if (tsx) return readFile(tsx);
-                throw new Error("No icon file found");
-              })
-            )
+            listFiles(dir).then((files) => {
+              const tsx = files.find((f) => f.endsWith(".tsx"));
+              if (tsx) return readFile(tsx);
+              throw new Error("No icon file found");
+            }),
           )
           .then((content) => {
             setFileContent(content);

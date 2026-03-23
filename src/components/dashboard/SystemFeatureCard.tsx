@@ -28,7 +28,7 @@ export function SystemFeatureCard({ item }: SystemFeatureCardProps) {
         <motion.div
           whileHover={{ y: -2, borderColor: "#2A2A2A" }}
           transition={{ duration: 0.15, ease: "easeOut" }}
-          className="bg-shell-raised border border-shell-border rounded-lg p-5 h-full"
+          className="bg-shell-raised border border-shell-border rounded-lg p-5 h-full card-glow"
         >
           {/* Top row */}
           <div className="flex items-center gap-2 mb-2">

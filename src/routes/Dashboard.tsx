@@ -7,22 +7,34 @@ import { CATEGORY_ICONS } from "@/lib/constants";
 import type { ReactNode } from "react";
 
 export default function Dashboard() {
-  const { index, isLoading, error } = useLibrary();
+  const { index, isLoading, error, rescan } = useLibrary();
 
-  if (isLoading || !index) {
+  if (error) {
     return (
-      <div className="flex items-center justify-center h-full">
-        <p className="text-sm text-shell-text-secondary animate-pulse">
-          Scanning library...
-        </p>
+      <div className="flex flex-col items-center justify-center h-full gap-3">
+        <p className="text-sm text-red-400">Failed to load library</p>
+        <p className="text-xs text-shell-text-tertiary max-w-sm text-center">{error}</p>
+        <button
+          type="button"
+          onClick={rescan}
+          className="text-xs text-shell-text-secondary hover:text-shell-text-primary border border-shell-border rounded-md px-3 py-1.5 transition-colors"
+        >
+          Retry
+        </button>
       </div>
     );
   }
 
-  if (error) {
+  if (isLoading || !index) {
     return (
-      <div className="flex items-center justify-center h-full">
-        <p className="text-sm text-red-400">{error}</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* Skeleton cards */}
+        <div className="col-span-1 md:col-span-2 skeleton-shimmer rounded-lg h-[140px]" />
+        <div className="col-span-1 skeleton-shimmer rounded-lg h-[140px]" />
+        <div className="col-span-1 skeleton-shimmer rounded-lg h-[140px]" />
+        <div className="col-span-1 skeleton-shimmer rounded-lg h-[120px]" />
+        <div className="col-span-1 skeleton-shimmer rounded-lg h-[120px]" />
+        <div className="col-span-1 skeleton-shimmer rounded-lg h-[120px]" />
       </div>
     );
   }

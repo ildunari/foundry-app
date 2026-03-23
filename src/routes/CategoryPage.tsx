@@ -14,17 +14,42 @@ const cardVariant = {
 };
 
 export default function CategoryPage({ kind }: { kind: CategoryKind }) {
-  const { index, isLoading } = useLibrary();
-  const def = CATEGORIES.find((c) => c.kind === kind)!;
+  const { index, isLoading, error, rescan } = useLibrary();
+  const def = CATEGORIES.find((c) => c.kind === kind);
+  if (!def) return <p className="text-red-400 text-sm">Unknown category.</p>;
   const Icon = def.icon;
 
   const category = index?.categories.find((c) => c.kind === kind);
   const items = category?.items ?? [];
 
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center py-24 gap-3">
+        <p className="text-sm text-red-400">Failed to load library</p>
+        <p className="text-xs text-shell-text-tertiary max-w-sm text-center">{error}</p>
+        <button
+          type="button"
+          onClick={rescan}
+          className="text-xs text-shell-text-secondary hover:text-shell-text-primary border border-shell-border rounded-md px-3 py-1.5 transition-colors"
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
+
   if (isLoading) {
     return (
-      <div className="text-shell-text-secondary animate-pulse">
-        Scanning library...
+      <div>
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-5 h-5 skeleton-shimmer rounded" />
+          <div className="w-32 h-7 skeleton-shimmer rounded" />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+          <div className="skeleton-shimmer rounded-lg h-[120px]" />
+          <div className="skeleton-shimmer rounded-lg h-[120px]" />
+          <div className="skeleton-shimmer rounded-lg h-[120px]" />
+        </div>
       </div>
     );
   }
@@ -66,7 +91,7 @@ export default function CategoryPage({ kind }: { kind: CategoryKind }) {
             <motion.div key={item.slug} variants={cardVariant}>
               <Link
                 to={`/${kind}/${item.slug}`}
-                className="block bg-shell-raised border border-shell-border rounded-lg p-4 transition-all duration-150 hover:border-[#2A2A2A] hover:-translate-y-0.5 hover:shadow-lg hover:shadow-black/20"
+                className="block bg-shell-raised border border-shell-border rounded-lg p-4 transition-all duration-200 card-glow hover:-translate-y-0.5"
               >
                 <div className="flex items-center gap-2 mb-1">
                   <span className="font-medium">{item.name}</span>
